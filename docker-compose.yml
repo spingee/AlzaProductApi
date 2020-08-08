@@ -17,3 +17,4 @@ services:
       - ConnectionString=Server=sqldata;Database=AlzaProduct;User Id=sa;Password=Pass@word
     depends_on:
       - sqldata
+    

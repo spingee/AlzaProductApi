@@ -4,6 +4,11 @@
         <name>AlzaProductApi</name>
     </assembly>
     <members>
+        <member name="T:AlzaProductApi.Controllers.ProductController">
+            <summary>
+            Api for products
+            </summary>
+        </member>
         <member name="M:AlzaProductApi.Controllers.ProductController.Get">
             <summary>
             Gets all products
@@ -15,6 +20,14 @@
             Gets product by its unique id
             </summary>
             <param name="id">Id of product</param>
+            <returns>Product</returns>
+        </member>
+        <member name="M:AlzaProductApi.Controllers.ProductController.ChangeDescription(System.Int32,System.String)">
+            <summary>
+            Updates product description
+            </summary>
+            <param name="id">Id of product</param>
+            <param name="description">new description</param>
             <returns>Product</returns>
         </member>
         <member name="T:AlzaProductApi.Models.Product">

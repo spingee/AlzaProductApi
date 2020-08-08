@@ -10,7 +10,10 @@ using System.Linq;
 using System.Reflection;
 using AlzaProductApi.Data;
 using AutoMapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Polly;
 
 namespace AlzaProductApi
 {
@@ -41,7 +44,7 @@ namespace AlzaProductApi
 		}
 
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper, ProductContext ctx)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper, ProductContext ctx, ILogger<Startup> logger)
 		{
 			if (env.IsDevelopment())
 			{
@@ -63,15 +66,26 @@ namespace AlzaProductApi
 			app.UseSwagger();
 			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alza product API"));
 			mapper.ConfigurationProvider.AssertConfigurationIsValid();
-			ApplyMigrations(ctx);
+			ApplyMigrations(ctx, logger);
 		}
 
-		private void ApplyMigrations(ProductContext context)
+		private void ApplyMigrations(ProductContext context, ILogger<Startup> logger)
 		{
-			if (context.Database.GetPendingMigrations().Any())
-			{
-				context.Database.Migrate();
-			}
+
+			Policy.Handle<SqlException>()
+				  .WaitAndRetry(retryCount: 3,
+					  sleepDurationProvider: retry => TimeSpan.FromSeconds(5),
+					  onRetry: (exception, timeSpan, retry, ctx) =>
+							   {
+								   logger.LogWarning(exception, "Exception {ExceptionType} with message {Message} detected on attempt {retry} of {retries}", exception.GetType().Name, exception.Message, retry, 3);
+							   })
+				 .Execute(() =>
+				  {
+					  if (context.Database.GetPendingMigrations().Any())
+					  {
+						  context.Database.Migrate();
+					  }
+				  });
 		}
 	}
 }

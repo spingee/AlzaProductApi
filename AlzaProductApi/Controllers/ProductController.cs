@@ -8,6 +8,9 @@ using AutoMapper.QueryableExtensions;
 
 namespace AlzaProductApi.Controllers
 {
+	/// <summary>
+	/// Api for products
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductController : ControllerBase
@@ -45,6 +48,23 @@ namespace AlzaProductApi.Controllers
 			if (product == null)
 				return NotFound();
 			return _mapper.Map<Product>(product);
+		}
+
+		/// <summary>
+		/// Updates product description
+		/// </summary>
+		/// <param name="id">Id of product</param>
+		/// <param name="description">New description</param>
+		/// <returns>Product</returns>
+		[HttpPost("{id}")]
+		public ActionResult ChangeDescription(int id, [FromBody] string description)
+		{
+			var product = _db.Products.SingleOrDefault(f => f.Id == id);
+			if (product == null)
+				return NotFound();
+			product.ChangeDescription(description);
+			_db.SaveChanges();
+			return Ok();
 		}
 	}
 }

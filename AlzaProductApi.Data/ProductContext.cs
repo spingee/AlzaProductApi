@@ -13,11 +13,11 @@ namespace AlzaProductApi.Data
 
 		}
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			ConfigureEntities(builder);
 			SeedData(builder);
-            base.OnModelCreating(builder);
+			base.OnModelCreating(builder);
 		}
 
 		private static void ConfigureEntities(ModelBuilder builder)
@@ -30,81 +30,18 @@ namespace AlzaProductApi.Data
 
 		public DbSet<Product> Products { get; set; }
 
-        private static void SeedData(ModelBuilder builder)
-        {
-            
+		private static void SeedData(ModelBuilder builder)
+		{
 
-            builder.Entity<Product>().HasData(
-                new Product
-                {
-                    Id = 1,
-                    Name = "Sportline",
-                    Price = 299000.9M,
-                    ImgUri = "http:\\temp.uri",
-                    Description = "SportlineDescription"
-                },
-                new Product
-                {
-                    Id = 2,
-                    Name = "RS",
-                    Price = 599999,
-                    ImgUri = "http:\\temp.uri",
-                    Description =
-                        "RsDescription"
-                },
-                new Product
-                {
-                    Id = 3,
-                    Name = "Active",
-                    Price = 180000,
-                    ImgUri = "http:\\temp.uri",
-                    Description = "ActiveDescription"
-                },
-                new Product
-                {
-                    Id = 4,
-                    Name = "Ambition",
-                    Price = 423123,
-                    ImgUri = "http:\\temp.uri",
-                    Description = "AmbitionDescription"
-                },
 
-                new Product
-                {
-                    Id = 5,
-                    Price = 123000,
-                    Name = "ActiveFabia",
-                    ImgUri = "http:\\temp.uri",
-                    Description = "ActiveFabiaDescription"
-                },
-                new Product
-                {
-                    Id = 6,
-                    Price = 333333,
-                    Name = "AmbitionFabia",
-                    ImgUri = "http:\\temp.uri",
-                    Description = "AmbitionFabiaDescription"
-                },
-                new Product
-                {
-                    Id = 7,
-                    Price = 350000,
-                    Name = "AmbitionOctavia",
-                    ImgUri = "http:\\temp.uri",
-                    Description = "AmbitionOctaviaDescription"
-                },
-                new Product
-                {
-                    Id = 8,
-                    Name = "StyleOctavia",
-                    ImgUri = "http:\\temp.uri",
-                    Price = 699000,
-                    Description = "StyleOctaviaDescription"
-                }
-
-            );
-        }
-    }
+			builder.Entity<Product>().HasData(
+				Product.Create(1, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+				Product.Create(2, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+				Product.Create(3, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+				Product.Create(4, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE")
+			);
+		}
+	}
 
 	public class ProductContextFactory : IDesignTimeDbContextFactory<ProductContext>
 	{
