@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"
+  alzaproductapi:
+    image: ${DOCKER_REGISTRY-}alzaproductapi
+    build:
+      context: .
+      dockerfile: AlzaProductApi/Dockerfile
+    environment:
+      - ConnectionString=Server=sqldata;Database=AlzaProduct;User Id=sa;Password=Pass@word
+    depends_on:
+      - sqldata

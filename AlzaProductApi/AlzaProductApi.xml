@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AlzaProductApi</name>
+    </assembly>
+    <members>
+        <member name="M:AlzaProductApi.Controllers.ProductController.Get">
+            <summary>
+            Gets all products
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AlzaProductApi.Controllers.ProductController.Get(System.Int32)">
+            <summary>
+            Gets product by its unique id
+            </summary>
+            <param name="id">Id of product</param>
+            <returns>Product</returns>
+        </member>
+        <member name="T:AlzaProductApi.Models.Product">
+            <summary>
+            Represents product from Alza catalog
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.Models.Product.Id">
+            <summary>
+            Unique identification of product
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.Models.Product.Name">
+            <summary>
+            Name of product
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.Models.Product.ImgUri">
+            <summary>
+            Uri to product image
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.Models.Product.Price">
+            <summary>
+            Price of product
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.Models.Product.Description">
+            <summary>
+            Detailed description of product
+            </summary>
+        </member>
+    </members>
+</doc>
