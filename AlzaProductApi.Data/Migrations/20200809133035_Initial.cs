@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlzaProductApi.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,8 +15,9 @@ namespace AlzaProductApi.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     ImgUri = table.Column<string>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false),
-                    Description = table.Column<string>(nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    TimeStamp = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,14 +29,10 @@ namespace AlzaProductApi.Data.Migrations
                 columns: new[] { "Id", "Description", "ImgUri", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, "SportlineDescription", "http:\\temp.uri", "Sportline", 299000.9m },
-                    { 2, "RsDescription", "http:\\temp.uri", "RS", 599999m },
-                    { 3, "ActiveDescription", "http:\\temp.uri", "Active", 180000m },
-                    { 4, "AmbitionDescription", "http:\\temp.uri", "Ambition", 423123m },
-                    { 5, "ActiveFabiaDescription", "http:\\temp.uri", "ActiveFabia", 123000m },
-                    { 6, "AmbitionFabiaDescription", "http:\\temp.uri", "AmbitionFabia", 333333m },
-                    { 7, "AmbitionOctaviaDescription", "http:\\temp.uri", "AmbitionOctavia", 350000m },
-                    { 8, "StyleOctaviaDescription", "http:\\temp.uri", "StyleOctavia", 699000m }
+                    { 1, "SSD MVE", "http:\\temp.uri", "Hardrive", 2000.89m },
+                    { 2, "SSD MVE", "http:\\temp.uri", "Hardrive", 2000.89m },
+                    { 3, "SSD MVE", "http:\\temp.uri", "Hardrive", 2000.89m },
+                    { 4, "SSD MVE", "http:\\temp.uri", "Hardrive", 2000.89m }
                 });
         }
 

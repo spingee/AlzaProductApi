@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlzaProductApi.Data.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20200809075958_update1")]
-    partial class update1
+    [Migration("20200809133035_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,7 @@ namespace AlzaProductApi.Data.Migrations
                     b.Property<byte[]>("_timestamp")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnName("TimeStamp")
                         .HasColumnType("rowversion");
 
                     b.HasKey("Id");

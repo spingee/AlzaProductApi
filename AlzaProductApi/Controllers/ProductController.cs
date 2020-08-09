@@ -71,9 +71,9 @@ namespace AlzaProductApi.Controllers
 		[ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.NotFound)]
 		[HttpGet("{id}", Name = "Get")]
-		public ActionResult<Product> Get(int id)
+		public async Task<IActionResult> Get(int id)
 		{
-			var product = _db.Products.SingleOrDefault(f => f.Id == id);
+			var product = await _db.Products.SingleOrDefaultAsync(f => f.Id == id);
 			if (product == null)
 				return NotFound();
 			return Ok(_mapper.Map<Product>(product));
@@ -87,14 +87,15 @@ namespace AlzaProductApi.Controllers
 		/// <returns>Product</returns>
 		[HttpPost("{id}")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound)]
 		[ProducesResponseType((int)HttpStatusCode.BadRequest)]
-		public ActionResult ChangeDescription(int id, [FromBody] string description)
+		public async Task<IActionResult> ChangeDescription(int id, [FromBody] string description)
 		{
-			var product = _db.Products.SingleOrDefault(f => f.Id == id);
+			var product = await _db.Products.SingleOrDefaultAsync(f => f.Id == id);
 			if (product == null)
 				return NotFound();
 			product.ChangeDescription(description);
-			_db.SaveChanges();
+			await _db.SaveChangesAsync();
 			return Ok();
 		}
 	}

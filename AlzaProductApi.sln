@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlzaProductApi", "AlzaProductApi\AlzaProductApi.csproj", "{B313A79C-63B6-4B0C-BDF3-0BEEFC593150}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlzaProductApi.Business", "AlzaProductApi.Business\AlzaProductApi.Business.csproj", "{08D23E84-ABE5-4B8B-A283-4C2D4DB6604F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlzaProductApi.Business", "AlzaProductApi.Business\AlzaProductApi.Business.csproj", "{08D23E84-ABE5-4B8B-A283-4C2D4DB6604F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlzaProductApi.Data", "AlzaProductApi.Data\AlzaProductApi.Data.csproj", "{A61D80C6-75A8-42BD-88DA-27AC573757F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlzaProductApi.Data", "AlzaProductApi.Data\AlzaProductApi.Data.csproj", "{A61D80C6-75A8-42BD-88DA-27AC573757F6}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FD97892E-4339-4C59-BB0B-6E46962EB2F5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlzaProductApi.Tests", "AlzaProductApi.Tests\AlzaProductApi.Tests.csproj", "{209F768A-4D57-44A7-BD07-B036B589EBD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FD97892E-4339-4C59-BB0B-6E46962EB2F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD97892E-4339-4C59-BB0B-6E46962EB2F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD97892E-4339-4C59-BB0B-6E46962EB2F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209F768A-4D57-44A7-BD07-B036B589EBD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209F768A-4D57-44A7-BD07-B036B589EBD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209F768A-4D57-44A7-BD07-B036B589EBD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209F768A-4D57-44A7-BD07-B036B589EBD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

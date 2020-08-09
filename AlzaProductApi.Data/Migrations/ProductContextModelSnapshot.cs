@@ -44,6 +44,7 @@ namespace AlzaProductApi.Data.Migrations
                     b.Property<byte[]>("_timestamp")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnName("TimeStamp")
                         .HasColumnType("rowversion");
 
                     b.HasKey("Id");
