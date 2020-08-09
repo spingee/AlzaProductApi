@@ -16,16 +16,15 @@
 			Description = description;
 		}
 
-		public static Product Create(int id, string name, decimal price, string imageUri, string description = null)
+		public static Product Create(string name, decimal price, string imageUri, string description = null)
 		{
 			return new Product
-			{
-				Id = id,
-				Name = name,
-				Price = price,
-				ImgUri = imageUri,
-				Description = description
-			};
+			       {
+				       Name = name,
+				       Price = price,
+				       ImgUri = imageUri,
+				       Description = description
+			       };
 		}
 	}
 }

@@ -16,19 +16,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AlzaProductApi.Tests
 {
 	[TestClass]
-	public class UnitTests
+	public class ProductApiTests
 	{
 		private IMapper _mapper;
 		private string _databaseName;
+		private static bool _inMemory = true;
 
 		[ClassInitialize]
 		public static void ClassInitialize(TestContext testContext)
 		{
-			//using var context = CreateIRealDbProductContext();
-			//if (context.Database.GetPendingMigrations().Any())
-			//{
-			//	context.Database.Migrate();
-			//}
+			if (!_inMemory)
+			{
+				using var context = CreateRealDbProductContext();
+				context.Database.EnsureDeleted();
+				context.Database.EnsureCreated();
+			}
 		}
 
 		[TestInitialize]
@@ -40,18 +42,23 @@ namespace AlzaProductApi.Tests
 												 });
 			_mapper = config.CreateMapper();
 			_databaseName = Guid.NewGuid().ToString();
+			if (!_inMemory)
+			{
+				using var context = CreateRealDbProductContext();
+				context.Products.RemoveRange(context.Products);
+				context.SaveChanges();
+			}
 		}
-		[DataRow(true, DisplayName = "InMemoryDb")]
-		[DataRow(false, DisplayName = "RealDb")]
-		[DataTestMethod]
-		public async Task GetAll_ShouldReturnAllProducts(bool inMemory)
+
+		[TestMethod]
+		public async Task GetAll_ShouldReturnAllProducts()
 		{
 			var dbProducts = new List<Product>
 			{
-				Product.Create(1, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-				Product.Create(2, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE")
+				Product.Create( "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+				Product.Create( "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE")
 			};
-			await using (var ctx = CreateProductContext(inMemory))
+			await using (var ctx = CreateProductContext())
 			{
 				await ctx.Products.AddRangeAsync(dbProducts);
 				await ctx.SaveChangesAsync();
@@ -64,24 +71,23 @@ namespace AlzaProductApi.Tests
 			ok.Value.Should().BeAssignableTo<IEnumerable<Models.Product>>();
 			var result = (IEnumerable<Models.Product>)ok.Value;
 			result.Should().BeEquivalentTo(dbProducts.Select(f => _mapper.Map<Models.Product>(f)));
-
 		}
 
-		[DataTestMethod]
+		[TestMethod]
 		public async Task GetPaginated_ShouldCorrectPaginatedResult()
 		{
 			var dbProducts = new List<Product>
 							 {
-								 Product.Create(1, "Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(2, "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(3, "Hardrive3", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(4, "Hardrive4", 3000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(5, "Hardrive5", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(6, "Hardrive6", 3000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(7, "Hardrive7", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(8, "Hardrive8", 3000.89M, "http:\\temp.uri", "SSD MVE")
+								 Product.Create( "Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive3", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive4", 3000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive5", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive6", 3000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive7", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive8", 3000.89M, "http:\\temp.uri", "SSD MVE")
 							 };
-			await using (var ctx = CreateInMemoryProductContext())
+			await using (var ctx = CreateProductContext())
 			{
 				await ctx.Products.AddRangeAsync(dbProducts);
 				await ctx.SaveChangesAsync();
@@ -98,25 +104,23 @@ namespace AlzaProductApi.Tests
 
 		}
 
-		[DataTestMethod]
+		[TestMethod]
 		public async Task GetPaginated_PageOutOfBounds_ShouldEmptyPaginatedResult()
 		{
 			var dbProducts = new List<Product>
 							 {
-								 Product.Create(1, "Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(2, "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(3, "Hardrive3", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(4, "Hardrive4", 3000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(5, "Hardrive5", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(6, "Hardrive6", 3000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(7, "Hardrive7", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-								 Product.Create(8, "Hardrive8", 3000.89M, "http:\\temp.uri", "SSD MVE")
+								 Product.Create( "Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive3", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive4", 3000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive5", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive6", 3000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive7", 2000.89M, "http:\\temp.uri", "SSD MVE"),
+								 Product.Create( "Hardrive8", 3000.89M, "http:\\temp.uri", "SSD MVE")
 							 };
-			await using (var ctx = CreateInMemoryProductContext())
-			{
-				await ctx.Products.AddRangeAsync(dbProducts);
-				await ctx.SaveChangesAsync();
-			}
+			await using var ctx = CreateProductContext();
+			await ctx.Products.AddRangeAsync(dbProducts);
+			await ctx.SaveChangesAsync();
 
 			var response = await CallProductController(controller => controller.GetPaginated(20, 10));
 
@@ -129,22 +133,21 @@ namespace AlzaProductApi.Tests
 
 		}
 
-		[DataTestMethod]
+		[TestMethod]
 		public async Task GetById_ShouldReturnCorrectProduct()
 		{
-			Product expected = Product.Create(1, "Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE");
+			Product expected = Product.Create("Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE");
 			var dbProducts = new List<Product>
 							 {
 								 expected,
-								 Product.Create(2, "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE")
+								 Product.Create( "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE")
 							 };
-			await using (var ctx = CreateInMemoryProductContext())
-			{
-				await ctx.Products.AddRangeAsync(dbProducts);
-				await ctx.SaveChangesAsync();
-			}
+			await using var ctx = CreateProductContext();
+			await ctx.Products.AddRangeAsync(dbProducts);
+			await ctx.SaveChangesAsync();
 
-			var response = await CallProductController(controller => controller.Get(1));
+
+			var response = await CallProductController(controller => controller.Get(expected.Id));
 
 			response.Should().BeOfType<OkObjectResult>();
 			var ok = (OkObjectResult)response;
@@ -154,61 +157,58 @@ namespace AlzaProductApi.Tests
 
 		}
 
-		[DataTestMethod]
+		[TestMethod]
 		public async Task GetById_NonExistingProduct_ShouldNotFound()
 		{
-			Product expected = Product.Create(1, "Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE");
+			Product expected = Product.Create("Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE");
 			var dbProducts = new List<Product>
 							 {
 								 expected,
-								 Product.Create(2, "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE")
+								 Product.Create("Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE")
 							 };
-			await using (var ctx = CreateInMemoryProductContext())
-			{
-				await ctx.Products.AddRangeAsync(dbProducts);
-				await ctx.SaveChangesAsync();
-			}
+			await using var ctx = CreateProductContext();
+			await ctx.Products.AddRangeAsync(dbProducts);
+			await ctx.SaveChangesAsync();
 
-			var response = await CallProductController(controller => controller.Get(3));
+			var response = await CallProductController(controller => controller.Get(dbProducts.Max(f => f.Id) + 1));
 
 			response.Should().BeOfType<NotFoundResult>();
 		}
 
-		[DataTestMethod]
+		[TestMethod]
 		public async Task ChangeDescription_ShouldSuccessfullyChangeDescription()
 		{
-			Product expected = Product.Create(1, "Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE");
+			Product expected = Product.Create("Hardrive1", 2000.89M, "http:\\temp.uri", "SSD MVE");
 			var dbProducts = new List<Product>
 							 {
 								 expected,
-								 Product.Create(2, "Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE")
+								 Product.Create("Hardrive2", 3000.89M, "http:\\temp.uri", "SSD MVE")
 							 };
-			await using (var ctx = CreateInMemoryProductContext())
-			{
-				await ctx.Products.AddRangeAsync(dbProducts);
-				await ctx.SaveChangesAsync();
-			}
+			await using var ctx = CreateProductContext();
+			await ctx.Products.AddRangeAsync(dbProducts);
+			await ctx.SaveChangesAsync();
 
-			var response = await CallProductController(controller => controller.ChangeDescription(2, "new description"));
+			var response = await CallProductController(controller => controller.ChangeDescription(expected.Id, "new description"));
 
 			response.Should().BeOfType<OkResult>();
-
-			var product = await CreateInMemoryProductContext().Products.FindAsync(2);
+			await using var productContext = CreateProductContext();
+			var product = await productContext.Products.FindAsync(expected.Id);
+			product.Should().NotBeNull();
 			product.Description.Should().Be("new description");
 		}
 
 		private async Task<T> CallProductController<T>(Func<ProductController, Task<T>> func)
 		{
-			await using var ctx = CreateInMemoryProductContext();
+			await using var ctx = CreateProductContext();
 			var controller = new ProductController(ctx, _mapper);
 			return await func(controller);
 		}
 
-		private ProductContext CreateProductContext(bool inMemory)
+		private ProductContext CreateProductContext()
 		{
-			//if (inMemory)
+			if (_inMemory)
 				return CreateInMemoryProductContext();
-			//return CreateIRealDbProductContext();
+			return CreateRealDbProductContext();
 		}
 
 		private ProductContext CreateInMemoryProductContext()
@@ -217,7 +217,7 @@ namespace AlzaProductApi.Tests
 			return new ProductContext(dbContextOptions);
 		}
 
-		private static ProductContext CreateIRealDbProductContext()
+		private static ProductContext CreateRealDbProductContext()
 		{
 			var builder = new DbContextOptionsBuilder<ProductContext>();
 			var dbContextOptions = builder.UseSqlServer("Server=localhost;Database=AlzaProductTests;Integrated Security = true;MultipleActiveResultSets=true")

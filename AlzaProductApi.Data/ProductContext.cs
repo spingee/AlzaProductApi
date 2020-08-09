@@ -34,15 +34,76 @@ namespace AlzaProductApi.Data
 
 		private static void SeedData(ModelBuilder builder)
 		{
-
-			
 			builder.Entity<Product>().HasData(
-				Product.Create(1, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-				Product.Create(2, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-				Product.Create(3, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE"),
-				Product.Create(4, "Hardrive", 2000.89M, "http:\\temp.uri", "SSD MVE")
-			);
-		}
+				        new 
+				        {
+					        Id = 1,
+					        Name = "Sportline",
+					        Price = 299000.9M,
+					        ImgUri = "http:\\temp.uri",
+					        Description = "SportlineDescription"
+				        },
+				        new 
+				        {
+					        Id = 2,
+					        Name = "RS",
+					        Price = 599999M,
+					        ImgUri = "http:\\temp.uri",
+					        Description =
+						        "RsDescription"
+				        },
+				        new 
+				        {
+					        Id = 3,
+					        Name = "Active",
+					        Price = 180000M,
+					        ImgUri = "http:\\temp.uri",
+					        Description = "ActiveDescription"
+				        },
+				        new 
+				        {
+					        Id = 4,
+					        Name = "Ambition",
+					        Price = 423123M,
+					        ImgUri = "http:\\temp.uri",
+					        Description = "AmbitionDescription"
+				        },
+
+				        new 
+				        {
+					        Id = 5,
+					        Price = 123000M,
+					        Name = "ActiveFabia",
+					        ImgUri = "http:\\temp.uri",
+					        Description = "ActiveFabiaDescription"
+				        },
+				        new 
+				        {
+					        Id = 6,
+					        Price = 333333M,
+					        Name = "AmbitionFabia",
+					        ImgUri = "http:\\temp.uri",
+					        Description = "AmbitionFabiaDescription"
+				        },
+				        new 
+				        {
+					        Id = 7,
+					        Price = 350000M,
+					        Name = "AmbitionOctavia",
+					        ImgUri = "http:\\temp.uri",
+					        Description = "AmbitionOctaviaDescription"
+				        },
+				        new 
+				        {
+					        Id = 8,
+					        Name = "StyleOctavia",
+					        ImgUri = "http:\\temp.uri",
+					        Price = 699000M,
+					        Description = "StyleOctaviaDescription"
+				        }
+
+			        );
+        }
 	}
 
 	public class ProductContextFactory : IDesignTimeDbContextFactory<ProductContext>
