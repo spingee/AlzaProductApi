@@ -24,7 +24,8 @@ namespace AlzaProductApi.Data
 		{
 			builder.Entity<Product>().Property(f => f.Name).IsRequired().HasMaxLength(200);
 			builder.Entity<Product>().Property(f => f.ImgUri).IsRequired();
-			builder.Entity<Product>().Property(f => f.Description).IsRequired();
+			builder.Entity<Product>().Property(f => f.Price).IsRequired().HasColumnType("decimal(18,2)");
+			builder.Entity<Product>().Property("_timestamp").IsRowVersion();
 
 		}
 

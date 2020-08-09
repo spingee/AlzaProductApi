@@ -13,7 +13,13 @@
             <summary>
             Gets all products
             </summary>
-            <returns></returns>
+            <returns>All available products</returns>
+        </member>
+        <member name="M:AlzaProductApi.Controllers.ProductController.GetPaginated(System.UInt32,System.Byte)">
+            <summary>
+            Gets all products
+            </summary>
+            <returns>Products on specified page</returns>
         </member>
         <member name="M:AlzaProductApi.Controllers.ProductController.Get(System.Int32)">
             <summary>
@@ -27,7 +33,7 @@
             Updates product description
             </summary>
             <param name="id">Id of product</param>
-            <param name="description">new description</param>
+            <param name="description">New description</param>
             <returns>Product</returns>
         </member>
         <member name="T:AlzaProductApi.Models.Product">
@@ -59,6 +65,41 @@
             <summary>
             Detailed description of product
             </summary>
+        </member>
+        <member name="T:AlzaProductApi.ViewModels.PaginatedItemsViewModel`1">
+            <summary>
+            Wrapper for paginated responses
+            </summary>
+            <typeparam name="TEntity">Type of paginated model</typeparam>
+        </member>
+        <member name="P:AlzaProductApi.ViewModels.PaginatedItemsViewModel`1.PageIndex">
+            <summary>
+            Index of current page
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.ViewModels.PaginatedItemsViewModel`1.PageSize">
+            <summary>
+            Size of page
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.ViewModels.PaginatedItemsViewModel`1.Count">
+            <summary>
+            Total number of items
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.ViewModels.PaginatedItemsViewModel`1.Data">
+            <summary>
+            Items of current page
+            </summary>
+        </member>
+        <member name="M:AlzaProductApi.ViewModels.PaginatedItemsViewModel`1.#ctor(System.Int32,System.Int32,System.Int64,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="pageIndex">Page index</param>
+            <param name="pageSize">Page size</param>
+            <param name="count">Count</param>
+            <param name="data">Data</param>
         </member>
     </members>
 </doc>
