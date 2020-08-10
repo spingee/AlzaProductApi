@@ -11,6 +11,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AlzaProductApi.Tests
@@ -21,10 +22,15 @@ namespace AlzaProductApi.Tests
 		private IMapper _mapper;
 		private string _databaseName;
 		private static bool _inMemory = true;
+		private static string _connectionString;
 
 		[ClassInitialize]
 		public static void ClassInitialize(TestContext testContext)
 		{
+			var configurationRoot = GetIConfigurationRoot(testContext.DeploymentDirectory);
+			_inMemory = configurationRoot.GetValue("UseInMemoryProvider", true);
+			_connectionString = configurationRoot.GetValue("ConnectionString", "Server=localhost;Database=AlzaProductTests;Integrated Security = true;MultipleActiveResultSets=true");
+
 			if (!_inMemory)
 			{
 				using var context = CreateRealDbProductContext();
@@ -220,9 +226,19 @@ namespace AlzaProductApi.Tests
 		private static ProductContext CreateRealDbProductContext()
 		{
 			var builder = new DbContextOptionsBuilder<ProductContext>();
-			var dbContextOptions = builder.UseSqlServer("Server=localhost;Database=AlzaProductTests;Integrated Security = true;MultipleActiveResultSets=true")
+			var dbContextOptions = builder.UseSqlServer(_connectionString)
 										   .Options;
 			return new ProductContext(dbContextOptions);
+		}
+
+		public static IConfigurationRoot GetIConfigurationRoot(string outputPath)
+		{
+			return new ConfigurationBuilder()
+				   .SetBasePath(outputPath)
+				   .AddJsonFile("appsettings.json", optional: true)
+				   //.AddUserSecrets("e3dfcccf-0cb3-423a-b302-e3e92e95c128")
+				   .AddEnvironmentVariables("TEST_ALZA_")
+				   .Build();
 		}
 	}
 }
