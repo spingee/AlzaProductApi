@@ -17,9 +17,11 @@
         </member>
         <member name="M:AlzaProductApi.Controllers.ProductController.GetPaginated(System.UInt32,System.Byte)">
             <summary>
-            Gets all products
+            Gets products by page
             </summary>
-            <returns>Products on specified page</returns>
+            <param name="pageIndex">Index starting with 0</param>
+            <param name="pageSize">Size of page</param>
+            <returns></returns>
         </member>
         <member name="M:AlzaProductApi.Controllers.ProductController.Get(System.Int32)">
             <summary>

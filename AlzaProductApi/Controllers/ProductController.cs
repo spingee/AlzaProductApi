@@ -45,9 +45,11 @@ namespace AlzaProductApi.Controllers
 		}
 
 		/// <summary>
-		/// Gets all products
+		/// Gets products by page
 		/// </summary>
-		/// <returns>Products on specified page</returns>
+		/// <param name="pageIndex">Index starting with 0</param>
+		/// <param name="pageSize">Size of page</param>
+		/// <returns></returns>
 		[ProducesResponseType(typeof(PaginatedItemsViewModel<Product>), (int)HttpStatusCode.OK)]
 		[MapToApiVersion("2")]
 		[HttpGet]
@@ -85,7 +87,7 @@ namespace AlzaProductApi.Controllers
 		/// <param name="id">Id of product</param>
 		/// <param name="description">New description</param>
 		/// <returns>Product</returns>
-		[HttpPost("{id}")]
+		[HttpPost("{id}/ChangeDescription")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.NotFound)]
 		[ProducesResponseType((int)HttpStatusCode.BadRequest)]

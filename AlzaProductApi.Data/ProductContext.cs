@@ -38,7 +38,7 @@ namespace AlzaProductApi.Data
 				        new 
 				        {
 					        Id = 1,
-					        Name = "Sportline",
+					        Name = "Harddrive1",
 					        Price = 299000.9M,
 					        ImgUri = "http:\\temp.uri",
 					        Description = "SportlineDescription"
@@ -46,8 +46,8 @@ namespace AlzaProductApi.Data
 				        new 
 				        {
 					        Id = 2,
-					        Name = "RS",
-					        Price = 599999M,
+					        Name = "Harddrive2",
+					        Price = 2599.9M,
 					        ImgUri = "http:\\temp.uri",
 					        Description =
 						        "RsDescription"
@@ -55,7 +55,7 @@ namespace AlzaProductApi.Data
 				        new 
 				        {
 					        Id = 3,
-					        Name = "Active",
+					        Name = "Harddrive3",
 					        Price = 180000M,
 					        ImgUri = "http:\\temp.uri",
 					        Description = "ActiveDescription"
@@ -63,7 +63,7 @@ namespace AlzaProductApi.Data
 				        new 
 				        {
 					        Id = 4,
-					        Name = "Ambition",
+					        Name = "Harddrive4",
 					        Price = 423123M,
 					        ImgUri = "http:\\temp.uri",
 					        Description = "AmbitionDescription"
@@ -73,15 +73,15 @@ namespace AlzaProductApi.Data
 				        {
 					        Id = 5,
 					        Price = 123000M,
-					        Name = "ActiveFabia",
+					        Name = "Harddrive5",
 					        ImgUri = "http:\\temp.uri",
 					        Description = "ActiveFabiaDescription"
 				        },
 				        new 
 				        {
 					        Id = 6,
-					        Price = 333333M,
-					        Name = "AmbitionFabia",
+					        Price = 3333.33M,
+					        Name = "Harddrive6",
 					        ImgUri = "http:\\temp.uri",
 					        Description = "AmbitionFabiaDescription"
 				        },
@@ -89,14 +89,14 @@ namespace AlzaProductApi.Data
 				        {
 					        Id = 7,
 					        Price = 350000M,
-					        Name = "AmbitionOctavia",
+					        Name = "Harddrive7",
 					        ImgUri = "http:\\temp.uri",
 					        Description = "AmbitionOctaviaDescription"
 				        },
 				        new 
 				        {
 					        Id = 8,
-					        Name = "StyleOctavia",
+					        Name = "Harddrive8",
 					        ImgUri = "http:\\temp.uri",
 					        Price = 699000M,
 					        Description = "StyleOctaviaDescription"
