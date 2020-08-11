@@ -51,6 +51,7 @@ Tests uses MSTEST framework, should be discoverable in all standard test runners
 
 ## Things I wanted to make but didn&#39;t have time:
 
+- Authentication
 - Proper structured logging across application
 - End to end tests with docker compose
 - Use Mediator pattern with commands/command handlers to move application logic from controllers
