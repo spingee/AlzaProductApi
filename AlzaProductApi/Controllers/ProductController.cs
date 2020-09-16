@@ -87,18 +87,29 @@ namespace AlzaProductApi.Controllers
 		/// <param name="id">Id of product</param>
 		/// <param name="description">New description</param>
 		/// <returns>Product</returns>
-		[HttpPost("{id}/ChangeDescription")]
+		[HttpPut("{id}",Name = "ChangeDescription")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.NotFound)]
 		[ProducesResponseType((int)HttpStatusCode.BadRequest)]
-		public async Task<IActionResult> ChangeDescription(int id, [FromBody] string description)
+		public async Task<IActionResult> ChangeDescription(int id, ChangeDescriptionRequest description)
 		{
 			var product = await _db.Products.SingleOrDefaultAsync(f => f.Id == id);
 			if (product == null)
 				return NotFound();
-			product.ChangeDescription(description);
+			product.ChangeDescription(description.Description);
 			await _db.SaveChangesAsync();
 			return Ok();
 		}
+	}
+
+	/// <summary>
+	/// Request to change description
+	/// </summary>
+	public class ChangeDescriptionRequest
+	{
+		/// <summary>
+		/// Request to change description
+		/// </summary>
+		public string Description { get; set; }
 	}
 }

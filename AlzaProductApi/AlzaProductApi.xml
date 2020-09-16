@@ -30,13 +30,23 @@
             <param name="id">Id of product</param>
             <returns>Product</returns>
         </member>
-        <member name="M:AlzaProductApi.Controllers.ProductController.ChangeDescription(System.Int32,System.String)">
+        <member name="M:AlzaProductApi.Controllers.ProductController.ChangeDescription(System.Int32,AlzaProductApi.Controllers.ChangeDescriptionRequest)">
             <summary>
             Updates product description
             </summary>
             <param name="id">Id of product</param>
             <param name="description">New description</param>
             <returns>Product</returns>
+        </member>
+        <member name="T:AlzaProductApi.Controllers.ChangeDescriptionRequest">
+            <summary>
+            Request to change description
+            </summary>
+        </member>
+        <member name="P:AlzaProductApi.Controllers.ChangeDescriptionRequest.Description">
+            <summary>
+            Request to change description
+            </summary>
         </member>
         <member name="T:AlzaProductApi.Models.Product">
             <summary>

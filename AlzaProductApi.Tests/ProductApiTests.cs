@@ -194,13 +194,14 @@ namespace AlzaProductApi.Tests
 			await ctx.Products.AddRangeAsync(dbProducts);
 			await ctx.SaveChangesAsync();
 
-			var response = await CallProductController(controller => controller.ChangeDescription(expected.Id, "new description"));
-
+			var newDescription = "new description";
+			var response =
+				await CallProductController(controller => controller.ChangeDescription(expected.Id, new ChangeDescriptionRequest { Description = newDescription }));
 			response.Should().BeOfType<OkResult>();
 			await using var productContext = CreateProductContext();
 			var product = await productContext.Products.FindAsync(expected.Id);
 			product.Should().NotBeNull();
-			product.Description.Should().Be("new description");
+			product.Description.Should().Be(newDescription);
 		}
 
 		private async Task<T> CallProductController<T>(Func<ProductController, Task<T>> func)
