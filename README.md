@@ -12,7 +12,11 @@ Simple Alza product catalog api as interview task.
  Runnable within Visual Studio or with Docker compose.
  There are two version of api – V1 and V2. V2 supports pagination when getting list of products.
 
+ Original case study file is in root directory - *BE_Developer_Case_Study.pdf*
+
 Even when api is very simple I used Businness layer for demonstrating DDD practices. I didn&#39;t used Repository and Unit of work patterns explicitly, because Entity framework&#39;s DbContext already implements those patterns and instead mocks in-memory provider can be used for &quot;faster&quot; tests. Testing line of business applications is better with feature/end-to-end tests with docker (e.g. no need to unit test business layer with mocks today).
+
+
 
 ## Prerequisites to run:
 
