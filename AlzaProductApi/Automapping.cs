@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 using AlzaProductApi.Models;
 using AutoMapper;
 
-namespace AlzaProductApi
+namespace AlzaProductApi;
+
+public class AutoMapping : Profile
 {
-	public class AutoMapping : Profile
+	public AutoMapping()
 	{
-		public AutoMapping()
-		{
-			CreateMap<Business.Entities.Product, Product>()
-				;
+		CreateMap<Business.Entities.Product, Product>()
+			;
 			
-		}
 	}
 }
