@@ -34,27 +34,37 @@ namespace AlzaProductApi
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc(c =>
-								c.Conventions.Add(
-									new ApiExplorerGroupPerVersionConvention())); // decorate Controllers to distinguish SwaggerDoc (v1, v2, etc.)
+				c.Conventions.Add(
+					new ApiExplorerGroupPerVersionConvention())); // decorate Controllers to distinguish SwaggerDoc (v1, v2, etc.)
 
 
 			services.AddDbContext<ProductContext>(options =>
-															options.UseSqlServer(
-																Configuration["ConnectionString"]));
+				options.UseSqlServer(
+					Configuration["ConnectionString"]));
 			services.AddControllers();
 			services.AddAutoMapper(typeof(Startup));
 			services.AddApiVersioning();
 
 			services.AddApiVersioning(o =>
-									  {
-										  o.AssumeDefaultVersionWhenUnspecified = true;
-										  o.DefaultApiVersion = new ApiVersion(2, 0);
-									  });
+			{
+				o.AssumeDefaultVersionWhenUnspecified = true;
+				o.DefaultApiVersion = new ApiVersion(2, 0);
+			});
 
 			services.AddSwaggerGen(opt =>
 			{
-				opt.SwaggerDoc("v1", new OpenApiInfo() { Title = "Alza product API V1", Version = "v1", Description = "Api for manipulating Alza product catalog" });
-				opt.SwaggerDoc("v2", new OpenApiInfo() { Title = "Alza product API V2", Version = "v2", Description = "Api for manipulating Alza product catalog" });
+				opt.SwaggerDoc("v1",
+					new OpenApiInfo()
+					{
+						Title = "Alza product API V1", Version = "v1",
+						Description = "Api for manipulating Alza product catalog"
+					});
+				opt.SwaggerDoc("v2",
+					new OpenApiInfo()
+					{
+						Title = "Alza product API V2", Version = "v2",
+						Description = "Api for manipulating Alza product catalog"
+					});
 				var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 				opt.IncludeXmlComments(xmlPath);
@@ -65,30 +75,30 @@ namespace AlzaProductApi
 				opt.DocumentFilter<ReplaceVersionWithExactValueInPath>();
 				// Ensure the routes are added to the right Swagger doc
 				opt.DocInclusionPredicate((version, desc) =>
-											{
-												if (!desc.TryGetMethodInfo(out MethodInfo methodInfo))
-													return false;
+				{
+					if (!desc.TryGetMethodInfo(out MethodInfo methodInfo))
+						return false;
 
-												var versions = methodInfo.DeclaringType
-																		 .GetCustomAttributes(true)
-																		 .OfType<ApiVersionAttribute>()
-																		 .SelectMany(attr => attr.Versions);
+					var versions = methodInfo.DeclaringType
+					                         .GetCustomAttributes(true)
+					                         .OfType<ApiVersionAttribute>()
+					                         .SelectMany(attr => attr.Versions);
 
-												var maps = methodInfo
-														   .GetCustomAttributes(true)
-														   .OfType<MapToApiVersionAttribute>()
-														   .SelectMany(attr => attr.Versions)
-														   .ToArray();
+					var maps = methodInfo
+					           .GetCustomAttributes(true)
+					           .OfType<MapToApiVersionAttribute>()
+					           .SelectMany(attr => attr.Versions)
+					           .ToArray();
 
-												return versions.Any(v => $"v{v.ToString()}" == version)
-													   && (!maps.Any() || maps.Any(v => $"v{v.ToString()}" == version));
-											});
-
+					return versions.Any(v => $"v{v.ToString()}" == version)
+					       && (!maps.Any() || maps.Any(v => $"v{v.ToString()}" == version));
+				});
 			});
 		}
 
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper, ProductContext ctx, ILogger<Startup> logger)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper, ProductContext ctx,
+			ILogger<Startup> logger)
 		{
 			if (env.IsDevelopment())
 			{
@@ -102,18 +112,14 @@ namespace AlzaProductApi
 
 			app.UseAuthorization();
 
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapControllers();
-			});
+			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 			app.UseSwagger();
 			app.UseSwaggerUI(c =>
-			                 {
-				                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alza product API V1");
-				                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "Alza product API V2");
-
-			                 });
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alza product API V1");
+				c.SwaggerEndpoint("/swagger/v2/swagger.json", "Alza product API V2");
+			});
 			//app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "Alza product API V2"));
 			mapper.ConfigurationProvider.AssertConfigurationIsValid();
 			ApplyMigrations(ctx, logger);
@@ -121,21 +127,22 @@ namespace AlzaProductApi
 
 		private void ApplyMigrations(ProductContext context, ILogger<Startup> logger)
 		{
-
 			Policy.Handle<SqlException>()
-				  .WaitAndRetry(retryCount: 3,
-					  sleepDurationProvider: retry => TimeSpan.FromSeconds(5),
-					  onRetry: (exception, timeSpan, retry, ctx) =>
-							   {
-								   logger.LogWarning(exception, "Exception {ExceptionType} with message {Message} detected on attempt {retry} of {retries}", exception.GetType().Name, exception.Message, retry, 3);
-							   })
-				 .Execute(() =>
-				  {
-					  if (context.Database.GetPendingMigrations().Any())
-					  {
-						  context.Database.Migrate();
-					  }
-				  });
+			      .WaitAndRetry(retryCount: 3,
+				      sleepDurationProvider: retry => TimeSpan.FromSeconds(5),
+				      onRetry: (exception, timeSpan, retry, ctx) =>
+				      {
+					      logger.LogWarning(exception,
+						      "Exception {ExceptionType} with message {Message} detected on attempt {retry} of {retries}",
+						      exception.GetType().Name, exception.Message, retry, 3);
+				      })
+			      .Execute(() =>
+			      {
+				      if (context.Database.GetPendingMigrations().Any())
+				      {
+					      context.Database.Migrate();
+				      }
+			      });
 		}
 
 		private class ApiExplorerGroupPerVersionConvention : IControllerModelConvention
@@ -149,6 +156,4 @@ namespace AlzaProductApi
 			}
 		}
 	}
-
-
 }
