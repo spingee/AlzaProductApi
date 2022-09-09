@@ -13,8 +13,12 @@ services:
     build:
       context: .
       dockerfile: AlzaProductApi/Dockerfile
+    ports:
+      - "35555:80"
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      #- ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80
       - ConnectionString=Server=sqldata;Database=AlzaProduct;User Id=sa;Password=Pass@word
     depends_on:
       - sqldata
-    

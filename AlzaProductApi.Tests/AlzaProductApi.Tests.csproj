@@ -7,7 +7,7 @@
 		<IsPackable>false</IsPackable>
 
 		<OutputType>Library</OutputType>
-
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
